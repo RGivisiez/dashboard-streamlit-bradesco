@@ -9,49 +9,48 @@ from statsmodels.tsa.holtwinters import ExponentialSmoothing
 def simulate_controls_data_resume(unit_selection):
     if unit_selection == 'Unidade de Varejo':
         np.random.seed(42)
-        
         # Controles de Crédito
         credit_controls_data = {
-            'Taxa de Utilização do Limite': np.random.uniform(50, 100, 12),  # Simula uma taxa de utilização em porcentagem
-            'efficacy': np.random.uniform(0.6, 1.0, 12)  # Simula eficácia dos controles de crédito
+            'Utilização do Limite de Crédito': np.random.uniform(50, 100, 12),  # Simula uma taxa de utilização em porcentagem
+            'efficacy': np.random.uniform(0.1, 0.2, 12)  # Simula eficácia dos controles de crédito
         }
 
         # Controles Operacionais
         operational_controls_data = {
             'Fraud_Detection_Rate': np.random.uniform(70, 100, 12),  # Simula taxa de detecção de fraude em porcentagem
-            'efficacy': np.random.uniform(0.1, 1.0, 12)  # Simula eficácia dos controles operacionais
+            'efficacy': np.random.uniform(0.8, 1.0, 12)  # Simula eficácia dos controles operacionais
         }
 
         # Controles de Reputação
         reputation_controls_data = {
-            'Satisfação do Cliente (%)_Score': np.random.uniform(3, 5, 12),  # Simula pontuação de satisfação do cliente de 1 a 5
-            'efficacy': np.random.uniform(0.5, 1.0, 12)  # Simula eficácia dos controles de reputação
+            'Índice de Satisfação do Cliente (%)_Score': np.random.uniform(3, 5, 12),  # Simula pontuação de satisfação do cliente de 1 a 5
+            'efficacy': np.random.uniform(0.5, .7, 12)  # Simula eficácia dos controles de reputação
         }
 
         # Agrupa todos os dados de controle em um dicionário
         controls_data = {
-            'Credit': credit_controls_data,
-            'Operational': operational_controls_data,
-            'Reputation': reputation_controls_data
+            'Crédito': credit_controls_data,
+            'Operacional': operational_controls_data,
+            'Reputação': reputation_controls_data
         }
 
     elif unit_selection == 'Unidade Investimentos':
         # Políticas e Limites de Investimento
         investment_policy_controls_data = {
             'Policy_Compliance_Rate': np.random.uniform(80, 100, 12),  # Simula taxa de conformidade com políticas em porcentagem
-            'efficacy': np.random.uniform(0.7, 1.0, 12) # Simula eficácia das políticas e limites de investimento
+            'efficacy': np.random.uniform(0.1, .5, 12) # Simula eficácia das políticas e limites de investimento
         }
 
         # Análise de Crédito
         credit_analysis_controls_data = {
             'Credit_Risk_Score': np.random.uniform(70, 100, 12),  # Simula pontuação de risco de crédito
-            'efficacy': np.random.uniform(0.6, 1.0, 12) # Simula eficácia da análise de crédito
+            'efficacy': np.random.uniform(0.1, 1.0, 12) # Simula eficácia da análise de crédito
         }
 
         # Planos de Contingência de Liquidez
         liquidity_plan_controls_data = {
             'Liquidity_Coverage_Ratio': np.random.uniform(100, 150, 12),  # Simula razão de cobertura de liquidez
-            'efficacy': np.random.uniform(0.5, 1.0, 12)  # Simula eficácia dos planos de contingência de liquidez
+            'efficacy': np.random.uniform(0.1, 1.0, 12)  # Simula eficácia dos planos de contingência de liquidez
         }
 
         # Agrupa todos os dados de controle em um dicionário
@@ -70,15 +69,15 @@ def simulate_controls_data(unit_selection):
         # Dados para controles de crédito
         credit_controls_data = pd.DataFrame({
             'Mês': pd.date_range(start='2022-01-01', periods=12, freq='M'),
-            'Taxa de Utilização do Limite': np.random.rand(12) * 100,
+            'Utilização do Limite de Crédito': np.random.rand(12) * 100,
             'Empreśtimos Acimo do Limite': np.random.randint(0, 10, size=12)
         })
 
         # Dados para controles operacionais
         operational_controls_data = pd.DataFrame({
             'Mês': pd.date_range(start='2022-01-01', periods=12, freq='M'),
-            'Fraudes Detectadas': np.random.randint(0, 100, size=12),
-            'Fraudes Prevenidas': np.random.randint(0, 100, size=12)
+            'Taxa de Detecção de Fraudes (%)': np.random.randint(0, 100, size=12),
+            'Taxa de Prevenção de Fraudes (%)': np.random.randint(0, 100, size=12)
         })
 
         # Dados para controles de reputação
@@ -95,7 +94,7 @@ def simulate_controls_data(unit_selection):
         # Simulação de dados para Políticas e Limites de Investimento
         investment_policy_data = pd.DataFrame({
             'Mês': Mêss,
-            'Investment_Policy_Compliance': np.random.uniform(0.8, 1.0, size=12)  # Conformidade com a política como percentual
+            'Conformidade com a Política de Investimento': np.random.uniform(0.8, 1.0, size=12)  # Conformidade com a política como percentual
         })
 
         # Simulação de dados para Análise de Crédito
@@ -118,8 +117,8 @@ def simulate_summary_data(controls_data, unit_selection):
         # Agrega dados para criar um resumo executivo
         summary_data = {
             'Total_Defaults': int(np.random.uniform(100, 500)),  # Total de inadimplências
-            'Total_Frauds': int(np.random.uniform(50, 150)),  # Total de fraudes detectadas
-            'Average_Satisfação do Cliente (%)': np.mean(controls_data['Reputation']['Satisfação do Cliente (%)_Score'])  # Média de satisfação do cliente
+            'Total_Frauds': int(np.random.uniform(50, 150)),  # Total de Taxa de Detecção de Fraudes (%)
+            'Average_Índice de Satisfação do Cliente (%)': np.mean(controls_data['Reputation']['Índice de Satisfação do Cliente (%)_Score'])  # Média de satisfação do cliente
         }
     elif unit_selection == 'Unidade Investimentos':
         # Agrega dados para criar um resumo executivo para a Unidade de Investimentos
@@ -141,20 +140,20 @@ def simulate_risk_data(unit_selection):
         # Gerar dados de inadimplência para os últimos 12 meses
         credit_risk_data = pd.DataFrame({
             'Mês': pd.date_range(start='2022-01-01', periods=12, freq='M'),
-            'Taxa de Default (%)': np.random.rand(12) * 100 - np.arange(0, 12) * 10 # Taxa de inadimplência como percentual
+            'Taxa de Inadimplência (%)': np.random.rand(12) * 100 - np.arange(0, 12) * 10 # Taxa de inadimplência como percentual
         })
 
         # Gerar dados de fraudes e falhas de segurança
         operational_risk_data = pd.DataFrame({
             'Mês': pd.date_range(start='2022-01-01', periods=12, freq='M'),
             'Fraudes': np.random.randint(0, 100, size=12),
-            'Cyber Incidentes': np.random.randint(0, 100, size=12)
+            'Incidentes Cibernéticos': np.random.randint(0, 100, size=12)
         })
 
         # Gerar dados de satisfação do cliente
         reputation_risk_data = pd.DataFrame({
             'Mês': pd.date_range(start='2022-01-01', periods=12, freq='M'),
-            'Satisfação do Cliente (%)': np.random.rand(12) * 100 + np.arange(0, 12) * 10# Percentual de satisfação
+            'Índice de Satisfação do Cliente (%)': np.random.rand(12) * 100 + np.arange(0, 12) * 10# Percentual de satisfação
         })
         return credit_risk_data, operational_risk_data, reputation_risk_data
 
@@ -163,7 +162,7 @@ def simulate_risk_data(unit_selection):
         # Simulação de dados de risco de mercado
         market_risk_data = pd.DataFrame({
             'Mês': Mêss,
-            'Flutuação de Preço de Mercado': np.random.uniform(-0.1, 0.1, size=12)  + np.arange(0, 12) * 0.01  # Flutuações de preço como percentual
+            'Variação do Preço de Mercado (%)': np.random.uniform(-0.1, 0.1, size=12)  + np.arange(0, 12) * 0.01  # Flutuações de preço como percentual
         })
 
         # Simulação de dados de risco de crédito
@@ -180,8 +179,53 @@ def simulate_risk_data(unit_selection):
 
         return market_risk_data, credit_risk_data, liquidity_risk_data
 
+def toggle_action(control):
+    # Se a chave não existe no estado da sessão, ou seja, o botão nunca foi pressionado,
+    # o estado é inicialmente configurado para False (texto não mostrado).
+    # Se a chave existe, invertemos o estado.
+    st.session_state[control] = not st.session_state.get(control, False)
+
+
 # Adicionar visão geral e avaliação ao dashboard
 def create_controls_overview(controls_data, unit_selection):
+
+    actions_dict = {
+        'Crédito': """
+        - **Análise de Dados:** Intensifique o uso de análise preditiva para identificar clientes com alto risco de inadimplência.
+        - **Revisão de Política de Crédito:** Reavalie a política de concessão de créditos.
+        - **Programas de Negociação:** Desenvolva programas de renegociação de dívidas para clientes em atraso.
+        """,
+
+        'Operacional': """
+        - **Tecnologia Anti-fraude:** Implemente ou atualize soluções de detecção de fraude baseadas em IA.
+        - **Treinamento de Funcionários:** Realize treinamentos regulares sobre práticas de prevenção de fraude.
+        - **Processos de Verificação:** Fortaleça os processos de verificação de transações e clientes.
+        """,
+
+        'Reputação': """
+        - **Feedback do Cliente:** Implemente um sistema de feedback em tempo real para avaliar a satisfação do cliente.
+        - **Atendimento ao Cliente:** Melhore o treinamento da equipe de suporte para proporcionar um atendimento mais eficiente e empático.
+        - **Resolução de Problemas:** Crie uma força-tarefa para resolver rapidamente as questões críticas de satisfação do cliente.
+        """,
+
+        'Política de Investimento': """
+        - **Auditorias e Monitoramento:** Aumente a frequência das auditorias de conformidade e use monitoramento em tempo real.
+        - **Educação e Consciência:** Reforce a importância da adesão às políticas com sessões educacionais.
+        - **Sistemas de Alerta:** Estabeleça alertas automáticos para violações de políticas.
+        """,
+
+        'Análise de Crédito': """
+        - **Avaliação de Risco Aprofundada:** Use modelos de risco de crédito mais sofisticados para análise de contraparte.
+        - **Diversificação de Portfólio:** Revise o portfólio para garantir diversificação e minimizar riscos.
+        - **Limiares de Alerta:** Configure limiares para identificar aumentos no risco de crédito.
+        """,
+
+        'Plano de Liquidação': """
+        - **Análise de Liquidez:** Realize testes de estresse regulares para avaliar a robustez da liquidez.
+        - **Reservas de Contingência:** Constitua ou aumente reservas de contingência para melhorar a cobertura de liquidez.
+        - **Gestão de Ativos e Passivos:** Melhore a correspondência entre ativos e passivos para gerenciar a liquidez efetivamente.
+        """
+        }
 
     # Avaliar a eficácia dos controles
     controls_evaluation = evaluate_controls(controls_data)
@@ -196,6 +240,13 @@ def create_controls_overview(controls_data, unit_selection):
                 st.warning(f"{control}: {status}")
             else:
                 st.error(f"{control}: {status}")
+                # Adiciona um botão que, quando clicado, mostra as ações para esse controle específico
+            if st.button(f"Ações para corrigir {control}", key=f"btn_{control}"):
+                st.write(f"Ações para melhorar o controle '{control}':")
+                # Aqui você pode inserir as ações específicas para cada controle
+                # Para o exemplo, estamos apenas exibindo texto genérico
+                st.markdown(actions_dict[control])
+
     elif unit_selection == 'Unidade Investimentos':
         st.subheader("Eficácia dos Controles da Unidade de Investimentos")
         for control, status in controls_evaluation.items():
@@ -206,6 +257,12 @@ def create_controls_overview(controls_data, unit_selection):
                 st.warning(f"{control_name}: {status}")
             else:
                 st.error(f"{control_name}: {status}")
+                # Adiciona um botão que, quando clicado, mostra as ações para esse controle específico
+            if st.button(f"Ações para corrigir {control}", key=f"btn_{control}"):
+                st.write(f"Ações para melhorar o controle '{control}':")
+                # Aqui você pode inserir as ações específicas para cada controle
+                # Para o exemplo, estamos apenas exibindo texto genérico
+                st.markdown(actions_dict[control])
 
 # Avalia a eficácia dos controles com base em KPIs e sinaliza melhorias
 def evaluate_controls(controls_data):
@@ -252,9 +309,9 @@ def sidebar(unit_selection):
             "Controles de Liquidez"
         ]
 
-    selected_charts_risk = st.sidebar.multiselect("Escolha os gráficos para exibir", chart_options_risk, default=chart_options_risk)
+    selected_charts_risk = st.sidebar.multiselect("Escolha os gráficos de Risco", chart_options_risk, default=chart_options_risk)
 
-    selected_charts_control = st.sidebar.multiselect("Escolha os gráficos para exibir", chart_options_control, default=chart_options_control)
+    selected_charts_control = st.sidebar.multiselect("Escolha os gráficos de Controle", chart_options_control, default=chart_options_control)
 
     selected_charts = selected_charts_risk + selected_charts_control
 
@@ -272,7 +329,7 @@ def plot_selected_charts(selected_charts, unit_selection):
         # Gráfico de inadimplência de empréstimos
         if "Risco de Crédito" in selected_charts:
             # Configurar o modelo de Suavização Exponencial
-            model = ExponentialSmoothing(credit_risk_data['Taxa de Default (%)'], trend='add', seasonal=None, seasonal_periods=12)
+            model = ExponentialSmoothing(credit_risk_data['Taxa de Inadimplência (%)'], trend='add', seasonal=None, seasonal_periods=12)
             # Treinar o modelo
             model_fit = model.fit()
             # Fazer previsões
@@ -283,10 +340,10 @@ def plot_selected_charts(selected_charts, unit_selection):
             last_point = credit_risk_data.iloc[-1]  # último ponto do conjunto de dados histórico
             future_dates = pd.date_range(start=credit_risk_data['Mês'].iloc[-2], periods=prediction_len + 1, freq='M')[1:]
             forecast_df = pd.DataFrame({'Mês': future_dates, 'Taxa de Default Prevista (%)': forecast}).reset_index(drop=True)
-            forecast_df.iloc[0, forecast_df.columns.get_loc('Taxa de Default Prevista (%)')] = last_point['Taxa de Default (%)']
+            forecast_df.iloc[0, forecast_df.columns.get_loc('Taxa de Default Prevista (%)')] = last_point['Taxa de Inadimplência (%)']
             
             # Gerar o gráfico de linha com Plotly Express
-            fig_credit = px.line(credit_risk_data, x='Mês', y='Taxa de Default (%)', title='Taxa de Inadimplência ao Longo do Tempo')
+            fig_credit = px.line(credit_risk_data, x='Mês', y='Taxa de Inadimplência (%)', title='Taxa de Inadimplência ao Longo do Tempo')
             
             # Adicionar a previsão de ES ao gráfico
             fig_credit.add_scatter(x=forecast_df['Mês'], y=forecast_df['Taxa de Default Prevista (%)'], mode='lines', name='Previsão',
@@ -298,7 +355,7 @@ def plot_selected_charts(selected_charts, unit_selection):
         # Gráfico de fraudes operacionais
         if "Risco Operacional" in selected_charts:
             #st.subheader("Risco Operacional: Fraudes e Falhas de Segurança Cibernética")
-            fig_operational = px.bar(operational_risk_data, x='Mês', y=['Fraudes', 'Cyber Incidentes'],
+            fig_operational = px.bar(operational_risk_data, x='Mês', y=['Fraudes', 'Incidentes Cibernéticos'],
                                     title='Incidentes de Fraudes e Segurança Cibernética')
             fig_operational.update_layout(
                                     yaxis_title='Valor em %',
@@ -308,7 +365,7 @@ def plot_selected_charts(selected_charts, unit_selection):
         # Gráfico de satisfação do cliente
         if "Risco de Reputação" in selected_charts:
             #st.subheader("Risco de Reputação: Satisfação do Cliente")
-            fig_reputation = px.bar(reputation_risk_data, x='Mês', y='Satisfação do Cliente (%)',
+            fig_reputation = px.bar(reputation_risk_data, x='Mês', y='Índice de Satisfação do Cliente (%)',
                                     title='Satisfação do Cliente ao Longo do Tempo')
             st.plotly_chart(fig_reputation)
         
@@ -317,10 +374,10 @@ def plot_selected_charts(selected_charts, unit_selection):
         # Gráfico para controles de crédito
         if "Controles de Crédito" in selected_charts:
             #st.subheader("Controles de Crédito: Utilização dos Limites de Empréstimo")
-            fig_credit_controls = px.bar(credit_controls_data, x='Mês', y=['Taxa de Utilização do Limite',
+            fig_credit_controls = px.bar(credit_controls_data, x='Mês', y=['Utilização do Limite de Crédito',
                                                                             'Empreśtimos Acimo do Limite'],
                                         labels={
-                                            'Taxa de Utilização do Limite': 'Taxa de Utilização (%)',
+                                            'Utilização do Limite de Crédito': 'Utilização (%)',
                                             'Empréstimos Acima do Limite': 'Valor dos Excessos'
                                         },
                                         title='Utilização dos Limites de Empréstimo e Excessos',)
@@ -333,7 +390,7 @@ def plot_selected_charts(selected_charts, unit_selection):
         # Gráfico para controles operacionais
         if "Controles Operacionais" in selected_charts:
             #st.subheader("Controles Operacionais: Eficácia dos Sistemas Anti-Fraude")
-            fig_operational_controls = px.bar(operational_controls_data, x='Mês', y=['Fraudes Detectadas', 'Fraudes Prevenidas'],
+            fig_operational_controls = px.bar(operational_controls_data, x='Mês', y=['Taxa de Detecção de Fraudes (%)', 'Taxa de Prevenção de Fraudes (%)'],
                                             title='Desempenho dos Sistemas Anti-Fraude', barmode='group')
             
             fig_operational_controls.update_layout(
@@ -362,7 +419,7 @@ def plot_selected_charts(selected_charts, unit_selection):
         # Gráfico de Risco de Mercado
         if "Risco de Mercado" in selected_charts:
         # Configurar o modelo de Suavização Exponencial para a flutuação de preços de mercado
-            model_market_risk = ExponentialSmoothing(market_risk_data['Flutuação de Preço de Mercado'], trend='add', seasonal=None, seasonal_periods=12)
+            model_market_risk = ExponentialSmoothing(market_risk_data['Variação do Preço de Mercado (%)'], trend='add', seasonal=None, seasonal_periods=12)
             # Treinar o modelo
             model_market_risk_fit = model_market_risk.fit()
             # Fazer previsões
@@ -373,13 +430,13 @@ def plot_selected_charts(selected_charts, unit_selection):
             last_market_data_point = market_risk_data.iloc[-1]  # último ponto do conjunto de dados histórico
             future_market_dates = pd.date_range(start=market_risk_data['Mês'].iloc[-2], periods=prediction_len + 1, freq='M')[1:]
             market_forecast_df = pd.DataFrame({'Mês': future_market_dates, 'Flutuação de Preço Prevista': market_forecast}).reset_index(drop=True)
-            market_forecast_df.iloc[0, market_forecast_df.columns.get_loc('Flutuação de Preço Prevista')] = last_market_data_point['Flutuação de Preço de Mercado']
+            market_forecast_df.iloc[0, market_forecast_df.columns.get_loc('Flutuação de Preço Prevista')] = last_market_data_point['Variação do Preço de Mercado (%)']
             
             # Gerar o gráfico de linha com Plotly Express para risco de mercado
-            fig_market_risk = px.line(market_risk_data, x='Mês', y='Flutuação de Preço de Mercado', title='Flutuações de Preço dos Investimentos ao Longo do Tempo')
+            fig_market_risk = px.line(market_risk_data, x='Mês', y='Variação do Preço de Mercado (%)', title='Flutuações de Preço dos Investimentos ao Longo do Tempo')
             
             # Adicionar a previsão de ES ao gráfico de risco de mercado
-            fig_market_risk.add_scatter(x=market_forecast_df['Mês'], y=market_forecast_df['Flutuação de Preço Prevista'], mode='lines', name='Previsão ES', line=dict(color='red', dash='dash'))
+            fig_market_risk.add_scatter(x=market_forecast_df['Mês'], y=market_forecast_df['Flutuação de Preço Prevista'], mode='lines', name='Previsão', line=dict(color='red', dash='dash'))
             
             # Mostrar o gráfico no Streamlit
             st.plotly_chart(fig_market_risk)
@@ -403,7 +460,7 @@ def plot_selected_charts(selected_charts, unit_selection):
         # Gráfico para controles de investimentos
         if "Controles de Investimentos" in selected_charts:
             #st.subheader("Controles de Investimentos: Conformidade com a Política de Investimentos")
-            fig_investment_controls = px.line(investment_policy_data, x='Mês', y='Investment_Policy_Compliance',
+            fig_investment_controls = px.line(investment_policy_data, x='Mês', y='Conformidade com a Política de Investimento',
                                             title='Conformidade com a Política de Investimentos ao Longo do Tempo')
             st.plotly_chart(fig_investment_controls)
 
@@ -441,3 +498,25 @@ def create_dashboard():
 
 # Executar a função para criar o dashboard
 create_dashboard()
+# Verifique se a chave 'show_action_plan' já existe no estado da sessão
+# Se não, inicie como False
+if 'show_action_plan' not in st.session_state:
+    st.session_state['show_action_plan'] = False
+
+# Quando o botão é clicado, atualiza o estado para não mostrar/esconder o plano de ação
+def toggle_action_plan():
+    st.session_state['show_action_plan'] = not st.session_state['show_action_plan']
+
+# Crie um botão que, quando clicado, chama a função 'toggle_action_plan'
+st.button('Mostrar/Ocultar Plano de Ação', on_click=toggle_action_plan)
+
+# Se a chave 'show_action_plan' no estado da sessão for True, mostra o plano de ação
+if st.session_state['show_action_plan']:
+    st.write("""
+        **Plano de Ação para Redução do Total de Inadimplências:**
+        1. **Revisão de Política de Crédito:** Avalie e ajuste os critérios de concessão de crédito.
+        2. **Programa de Educação Financeira:** Implemente iniciativas educacionais para clientes.
+        3. **Melhoria no Processo de Cobrança:** Aprimore as estratégias e ferramentas de cobrança.
+        4. **Análise de Dados:** Intensifique a análise de dados para identificação precoce de risco.
+        5. **Comunicação com o Cliente:** Reforce a comunicação com clientes em risco de inadimplência.
+    """)
