@@ -493,6 +493,8 @@ def create_dashboard():
                                   ('Unidade de Varejo', 'Unidade Investimentos'),
                                   placeholder='Unidade de Varejo')
 
+    st.markdown("Os dados são gerados aleatoriamente para fins de demonstração.")
+
     st.title("Dashborad Riscos e Controles - " + unit_selection)
 
     # Obter dados de controle
