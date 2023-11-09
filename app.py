@@ -7,8 +7,8 @@ from statsmodels.tsa.holtwinters import ExponentialSmoothing
 # Gera os dados
 
 def simulate_controls_data_resume(unit_selection):
+    np.random.seed(42)
     if unit_selection == 'Unidade de Varejo':
-        np.random.seed(42)
         # Controles de Crédito
         credit_controls_data = {
             'Utilização do Limite de Crédito': np.random.uniform(50, 100, 12),  # Simula uma taxa de utilização em porcentagem
@@ -234,6 +234,9 @@ def create_controls_overview(controls_data, unit_selection):
         # Apresentar os controles e sua eficácia
         st.subheader("Eficácia dos Controles")
         for control, status in controls_evaluation.items():
+            # Verifique o estado atual deste controle específico no estado da sessão
+            show_action_key = f"show_action_{control}"
+        
             if status == 'Eficaz':
                 st.success(f"{control}: {status}")
             elif status == 'Necessita de atenção':
@@ -241,16 +244,19 @@ def create_controls_overview(controls_data, unit_selection):
             else:
                 st.error(f"{control}: {status}")
                 # Adiciona um botão que, quando clicado, mostra as ações para esse controle específico
+            # Crie um botão que, quando clicado, irá alternar a visibilidade das ações
             if st.button(f"Ações para corrigir {control}", key=f"btn_{control}"):
-                st.write(f"Ações para melhorar o controle '{control}':")
-                # Aqui você pode inserir as ações específicas para cada controle
-                # Para o exemplo, estamos apenas exibindo texto genérico
+                toggle_action(show_action_key)
+            
+            # Se o estado de visibilidade deste controle for True, mostrar as ações
+            if st.session_state.get(show_action_key):
                 st.markdown(actions_dict[control])
 
     elif unit_selection == 'Unidade Investimentos':
         st.subheader("Eficácia dos Controles da Unidade de Investimentos")
         for control, status in controls_evaluation.items():
             control_name = ' '.join(control.split('_')).title()  # Transforma 'InvestmentPolicy' em 'Investment Policy'
+            show_action_key = f"show_action_{control}"
             if status == 'Eficaz':
                 st.success(f"{control_name}: {status}")
             elif status == 'Necessita de atenção':
@@ -258,10 +264,12 @@ def create_controls_overview(controls_data, unit_selection):
             else:
                 st.error(f"{control_name}: {status}")
                 # Adiciona um botão que, quando clicado, mostra as ações para esse controle específico
+            # Crie um botão que, quando clicado, irá alternar a visibilidade das ações
             if st.button(f"Ações para corrigir {control}", key=f"btn_{control}"):
-                st.write(f"Ações para melhorar o controle '{control}':")
-                # Aqui você pode inserir as ações específicas para cada controle
-                # Para o exemplo, estamos apenas exibindo texto genérico
+                toggle_action(show_action_key)
+            
+            # Se o estado de visibilidade deste controle for True, mostrar as ações
+            if st.session_state.get(show_action_key):
                 st.markdown(actions_dict[control])
 
 # Avalia a eficácia dos controles com base em KPIs e sinaliza melhorias
@@ -498,25 +506,3 @@ def create_dashboard():
 
 # Executar a função para criar o dashboard
 create_dashboard()
-# Verifique se a chave 'show_action_plan' já existe no estado da sessão
-# Se não, inicie como False
-if 'show_action_plan' not in st.session_state:
-    st.session_state['show_action_plan'] = False
-
-# Quando o botão é clicado, atualiza o estado para não mostrar/esconder o plano de ação
-def toggle_action_plan():
-    st.session_state['show_action_plan'] = not st.session_state['show_action_plan']
-
-# Crie um botão que, quando clicado, chama a função 'toggle_action_plan'
-st.button('Mostrar/Ocultar Plano de Ação', on_click=toggle_action_plan)
-
-# Se a chave 'show_action_plan' no estado da sessão for True, mostra o plano de ação
-if st.session_state['show_action_plan']:
-    st.write("""
-        **Plano de Ação para Redução do Total de Inadimplências:**
-        1. **Revisão de Política de Crédito:** Avalie e ajuste os critérios de concessão de crédito.
-        2. **Programa de Educação Financeira:** Implemente iniciativas educacionais para clientes.
-        3. **Melhoria no Processo de Cobrança:** Aprimore as estratégias e ferramentas de cobrança.
-        4. **Análise de Dados:** Intensifique a análise de dados para identificação precoce de risco.
-        5. **Comunicação com o Cliente:** Reforce a comunicação com clientes em risco de inadimplência.
-    """)
